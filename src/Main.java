@@ -6,8 +6,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scr = new Scanner(System.in);
+        System.out.println(intros[new Random().nextInt(intros.length)]);
         while (true) {
-            System.out.println(intros[new Random().nextInt(intros.length)]);
             System.out.print("Choose a day:");
             int inp = scr.nextInt();
             if (inp <= 0 || inp > 25) break;
