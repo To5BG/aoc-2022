@@ -36,7 +36,7 @@ public class Day2 {
             lookupStar1.put((char)(65 + (i + 2) % 3) + " " + (char)(90 - (i + 1) % 3), 3 * i);
             lookupStar2.put((char)(65 + (i + 2) % 3) + " " + (char)(90 - (i + 1) % 3), 3);
         }
-        return star == 1 ? solve(rounds, lookupStar1) : solve(rounds, lookupStar2);
+        return solve(rounds, star == 1 ? lookupStar1 : lookupStar2);
     }
     public static Object solve(String[] input, Map<String, Integer> lookup) {
         return Arrays.stream(input).map(s -> lookup.get(s) + lookup.get(s.charAt(2) + ""))
