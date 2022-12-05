@@ -1,4 +1,5 @@
 import java.lang.reflect.Method;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Random;
 import java.util.Scanner;
@@ -11,14 +12,14 @@ public class Main {
             System.out.print("Choose a day:");
             int inp = scr.nextInt();
             if (inp <= 0 || inp > 25) break;
-            Path fp = Path.of("inputs\\day" + inp + ".txt");
             try {
+                String input = Files.readString(Path.of("inputs\\day" + inp + ".txt"));
                 Method solver = Class.forName("solutions.Day" + inp)
-                        .getMethod("preprocess", Path.class, int.class);
+                        .getMethod("preprocess", String.class, int.class);
                 System.out.println("Star 1 Result: " +
-                        solver.invoke(null, fp, 1));
+                        solver.invoke(null, input, 1));
                 System.out.println("Star 2 Result: " +
-                        solver.invoke(null, fp, 2));
+                        solver.invoke(null, input, 2));
             } catch (Exception ignore) {
                 break;
             }

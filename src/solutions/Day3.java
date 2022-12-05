@@ -1,8 +1,5 @@
 package solutions;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,14 +8,7 @@ import java.util.stream.Stream;
 
 @SuppressWarnings("unused")
 public class Day3 {
-    public static Object preprocess(Path filepath, int star) {
-        String input;
-        try {
-            input = Files.readString(filepath);
-        } catch (IOException e) {
-            System.out.println("IO bad");
-            return null;
-        }
+    public static Object preprocess(String input, int star) {
         star = Math.min(Math.max(star, 1), 2);
         String[] arr = input.split("\n");
         return star == 1 ? solveStar1(arr) :
