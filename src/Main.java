@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scr = new Scanner(System.in);
-        System.out.println(intros[new Random().nextInt(intros.length)]);
+        System.out.print(intros[new Random().nextInt(intros.length)]);
         while (true) {
             System.out.print("Choose a day:");
             int inp = scr.nextInt();
