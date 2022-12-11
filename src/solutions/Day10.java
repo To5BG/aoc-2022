@@ -20,7 +20,7 @@ public class Day10 {
         return star == 1 ? solveStar1(ops) : solveStar2(ops);
     }
     public static Object solveStar1(Stream<Pair> ops) {
-        return ops.filter(p -> p.a % 20 == 0 && p.a % 40 != 0).map(p -> p.b).reduce(0, Integer::sum);
+        return ops.filter(p -> p.a % 20 == 0 && p.a % 40 != 0).map(p -> p.a * p.b).reduce(0, Integer::sum);
     }
     public static Object solveStar2(Stream<Pair> ops) {
         return "\n" + ops.map(p -> (Math.abs((p.a - 1) % 40 - p.b) <= 1 ? "#" : ".") + (p.a % 40 == 0 ? "\n" : ""))
