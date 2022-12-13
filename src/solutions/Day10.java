@@ -9,9 +9,8 @@ import java.util.stream.Stream;
 public class Day10 {
     public record Pair(int a, int b){}
     public static Object preprocess(String input, int star) {
-        AtomicInteger c = new AtomicInteger(0);
-        AtomicInteger s = new AtomicInteger(1);
-        Stream<Pair> ops = Arrays.stream(Arrays.stream(input.split("\n")).map(ss ->
+        AtomicInteger c = new AtomicInteger(0), s = new AtomicInteger(1);
+        Stream<Pair> ops = Arrays.stream(input.lines().map(ss ->
                         c.incrementAndGet() + " " + s.get() + "\n" + (ss.startsWith("noop") ? ""
                         : c.incrementAndGet() + " " + s.getAndAdd(Integer.parseInt(ss.split(" ")[1])) + "\n"))
                 .collect(Collectors.joining()).split("\n")).map(ss ->

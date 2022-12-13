@@ -9,7 +9,7 @@ public class Day12 {
     public static Object preprocess(String input, int star) {
         Pair start = new Pair(input.indexOf('S') / (input.split("\n")[0].length() + 1),
                 input.indexOf('S') % (input.split("\n")[0].length() + 1));
-        Integer[][] grid = Arrays.stream(input.split("\n")).map(s -> s.chars()
+        Integer[][] grid = input.lines().map(s -> s.chars()
                 .map(i -> Math.max(-1, i - 97)).boxed().toArray(Integer[]::new)).toArray(Integer[][]::new);
         grid[start.a][start.b] = star - 2;
         star = Math.min(Math.max(star, 1), 2);

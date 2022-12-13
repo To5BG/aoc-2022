@@ -7,9 +7,7 @@ import java.util.stream.Stream;
 public class Day1 {
     public static Object preprocess(String input, int star) {
         Stream<Integer> newinput = Arrays.stream(input.split("\n\n")).map(s ->
-                Arrays.stream(s.split("\n"))
-                        .map(Integer::parseInt)
-                        .reduce(0, Integer::sum));
+                        s.lines().map(Integer::parseInt).reduce(0, Integer::sum));
         star = Math.min(Math.max(star, 1), 2);
         return star == 1 ? solveStar1(newinput) : solveStar2(newinput);
     }

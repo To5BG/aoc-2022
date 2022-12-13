@@ -27,7 +27,7 @@ public class Day8 {
         return star == 1 ? solveStar1(input) : solveStar2(input);
     }
     public static Stream<Integer> solve(String input, FourParameterFunctionByReturn f) {
-        Integer[][] forest = Arrays.stream(input.split("\n")).map(s -> s.chars().map(i -> i - 48)
+        Integer[][] forest = input.lines().map(s -> s.chars().map(i -> i - 48)
                 .boxed().toArray(Integer[]::new)).toArray(Integer[][]::new);
         Integer[][] tforest = transpose(forest);
         Integer[][] res = new Integer[forest.length][forest[0].length];
@@ -53,10 +53,10 @@ public class Day8 {
                     .takeWhile(num -> num < a[i][j]).count();
             long up = Arrays.stream(reverse(Arrays.stream(b[j]).limit(i).toArray(Integer[]::new)))
                     .takeWhile(num -> num < a[i][j]).count();
-            return (int) ((b[j].length == i + down ? down - 1 : down) *
-                    (a[i].length == j + right ? right - 1 : right) *
-                    (i != up ? up + 1 : up) *
-                    (j != left ? left + 1 : left));
+            return (int) (((b[j].length == i + down ? -1 : 0) + down) *
+                    ((a[i].length == j + right ? -1 : 0) + right) *
+                    ((i != up ? 1 : 0) + up) *
+                    ((j != left ? 1 : 0) + left));
         }).max(Integer::compareTo).orElse(-1);
     }
 }
