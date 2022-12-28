@@ -13,7 +13,7 @@ public class Main {
             int inp = scr.nextInt();
             if (inp <= 0 || inp > 25) break;
             try {
-                //String input = Files.readString(Path.of("inputs\\t.txt"));
+                //2String input = Files.readString(Path.of("inputs\\sample.txt"));
                 String input = Files.readString(Path.of("inputs\\day" + inp + ".txt"));
                 Method solver = Class.forName("solutions.Day" + inp)
                         .getMethod("preprocess", String.class, int.class);
