@@ -1,6 +1,8 @@
 import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -17,10 +19,14 @@ public class Main {
                 String input = Files.readString(Path.of("inputs\\day" + inp + ".txt"));
                 Method solver = Class.forName("solutions.Day" + inp)
                         .getMethod("preprocess", String.class, int.class);
-                System.out.println("Star 1 Result: " +
-                        solver.invoke(null, input, 1));
-                System.out.println("Star 2 Result: " +
-                        solver.invoke(null, input, 2));
+                long start = System.currentTimeMillis();
+                System.out.println("Star 1 Result: " + solver.invoke(null, input, 1));
+                long cp = System.currentTimeMillis();
+                System.out.println("Elapsed time: " + (cp - start) + "ms");
+
+                System.out.println("Star 2 Result: " + solver.invoke(null, input, 2));
+                long cp2 = System.currentTimeMillis();
+                System.out.println("Elapsed time: " + (cp2 - cp) + "ms");
             } catch (Exception ignore) {
                 break;
             }
