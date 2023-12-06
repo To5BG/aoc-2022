@@ -11,6 +11,7 @@ public class Day14 {
         star = Math.min(Math.max(star, 1), 2);
         return star == 1 ? solveStar1(rocks) : solveStar2(rocks);
     }
+
     public static Object solveStar1(List<String> input) {
         final char[][] grid = buildGrid(input);
         final int maxY = getMaxY(grid);
@@ -18,6 +19,7 @@ public class Day14 {
         while (pour(grid, 500, 0, maxY)) nrSand++;
         return String.valueOf(nrSand);
     }
+
     public static Object solveStar2(List<String> input) {
         final char[][] grid = buildGrid(input);
         final int maxY = getMaxY(grid) + 2;
@@ -29,8 +31,9 @@ public class Day14 {
 
     private static int getMaxY(final char[][] grid) {
         int maxY = 0;
-        for (int y = 0; y < grid.length; y++) for (int x = 0; x < grid[0].length; x++)
-            if (grid[y][x] != '.') maxY = Math.max(y, maxY);
+        for (int y = 0; y < grid.length; y++)
+            for (int x = 0; x < grid[0].length; x++)
+                if (grid[y][x] != '.') maxY = Math.max(y, maxY);
         return maxY;
     }
 

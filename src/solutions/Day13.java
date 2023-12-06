@@ -14,7 +14,8 @@ public class Day13 {
             if (!s.startsWith("[")) vals[0] = Integer.parseInt(s);
             else {
                 s = s.substring(1, s.length() - 1);
-                int y = 0; StringBuilder temp = new StringBuilder();
+                int y = 0;
+                StringBuilder temp = new StringBuilder();
                 for (char c : s.toCharArray()) {
                     if (c == ',' && y == 0) {
                         desc.add(new Packet(temp.toString()));
@@ -24,26 +25,28 @@ public class Day13 {
                         temp.append(c);
                     }
                 }
-                if (temp.length() > 0) desc.add(new Packet(temp.toString()));
+                if (!temp.isEmpty()) desc.add(new Packet(temp.toString()));
                 vals[1] = false;
             }
         }
+
         public int compareTo(Packet o) {
-            if ((boolean)vals[1] && (boolean)o.vals[1]) return (int)vals[0] - (int)o.vals[0];
-            if (!(boolean)vals[1] && !(boolean)o.vals[1]) {
+            if ((boolean) vals[1] && (boolean) o.vals[1]) return (int) vals[0] - (int) o.vals[0];
+            if (!(boolean) vals[1] && !(boolean) o.vals[1]) {
                 for (int i = 0; i < Math.min(desc.size(), o.desc.size()); i++) {
                     int val = desc.get(i).compareTo(o.desc.get(i));
                     if (val != 0) return val;
                 }
                 return desc.size() - o.desc.size();
             }
-            Packet l = (boolean)vals[1] ? new Packet("[" + vals[0] + "]") : this;
-            Packet r = (boolean)o.vals[1] ? new Packet("[" + o.vals[0] + "]") : o;
+            Packet l = (boolean) vals[1] ? new Packet("[" + vals[0] + "]") : this;
+            Packet r = (boolean) o.vals[1] ? new Packet("[" + o.vals[0] + "]") : o;
             return l.compareTo(r);
         }
     }
+
     public static Object preprocess(String input, int star) {
-        Packet[] pairs = input.lines().filter(s -> !s.equals("")).map(Packet::new).toArray(Packet[]::new);
+        Packet[] pairs = input.lines().filter(s -> !s.isEmpty()).map(Packet::new).toArray(Packet[]::new);
         star = Math.min(Math.max(star, 1), 2);
         return star == 1 ? solveStar1(pairs) : solveStar2(Stream.concat(Arrays.stream(pairs),
                 Stream.of(new Packet("[[2]]"), new Packet("[[6]]"))).toArray(Packet[]::new));

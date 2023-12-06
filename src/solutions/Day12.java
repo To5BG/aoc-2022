@@ -5,7 +5,9 @@ import java.util.stream.IntStream;
 
 @SuppressWarnings("unused")
 public class Day12 {
-    public record Pair(int a, int b) {}
+    public record Pair(int a, int b) {
+    }
+
     public static Object preprocess(String input, int star) {
         Pair start = new Pair(input.indexOf('S') / (input.split("\n")[0].length() + 1),
                 input.indexOf('S') % (input.split("\n")[0].length() + 1));
@@ -15,14 +17,18 @@ public class Day12 {
         star = Math.min(Math.max(star, 1), 2);
         return star == 1 ? solve(grid, start) : solveStar2(grid);
     }
+
     // My inner hatred for recursion won't let me do it functionally, lmao
     public static Object solve(Integer[][] grid, Pair start) {
-        Map<Pair, Pair> dirs = new HashMap<>(); dirs.put(start, null);
-        Queue<Pair> q = new ArrayDeque<>(); q.add(start);
+        Map<Pair, Pair> dirs = new HashMap<>();
+        dirs.put(start, null);
+        Queue<Pair> q = new ArrayDeque<>();
+        q.add(start);
         while (!q.isEmpty()) {
             Pair curr = q.remove();
             if (grid[curr.a][curr.b] == -1 && !curr.equals(start)) {
-                int dist = 1; while((curr = dirs.get(curr)) != start) dist++;
+                int dist = 1;
+                while ((curr = dirs.get(curr)) != start) dist++;
                 return dist;
             }
             for (Pair near : List.of(new Pair(curr.a - 1, curr.b), new Pair(curr.a, curr.b - 1),
@@ -37,10 +43,11 @@ public class Day12 {
         }
         return Integer.MAX_VALUE;
     }
+
     public static Object solveStar2(Integer[][] grid) {
         return IntStream.range(0, grid.length).mapToObj(i -> IntStream.range(0, grid[0].length)
                         .mapToObj(j -> new Pair(i, j))).flatMap(i -> i)
-                .filter(p -> grid[p.a][p.b] == 0).map(p -> (Integer)solve(grid, p))
+                .filter(p -> grid[p.a][p.b] == 0).map(p -> (Integer) solve(grid, p))
                 .min(Integer::compareTo).orElse(-1);
     }
 }

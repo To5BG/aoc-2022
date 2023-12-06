@@ -11,8 +11,12 @@ import java.util.stream.IntStream;
 
 @SuppressWarnings("unused")
 public class Day24 {
-    public record Point(int x, int y) {}
-    public record State(Point p, int minute, boolean visitedStart, boolean visitedEnd) {}
+    public record Point(int x, int y) {
+    }
+
+    public record State(Point p, int minute, boolean visitedStart, boolean visitedEnd) {
+    }
+
     public static Object preprocess(String input, int star) {
         Character[][] grid = input.lines().map(l -> l.chars().mapToObj(i -> (char) i)
                 .toArray(Character[]::new)).toArray(Character[][]::new);
@@ -21,21 +25,11 @@ public class Day24 {
         star = Math.min(Math.max(star, 1), 2);
         return star == 1 ? solveStar1(grid, start) : solveStar2(grid, start);
     }
+
     public static int solve(Character[][] grid, State start, boolean stopAtFirst) {
-        Map<Integer, Set<Point>> gridStates = new HashMap<>();
-        for (int min = 0; min <= 800; min++) {
-            Set<Point> bliz = new HashSet<>();
-            for (int y = 0; y < grid.length; y++) for (int x = 0; x < grid[y].length; x++) {
-                if (grid[y][x] == '>') bliz.add(new Point(1 + (x - 1 + min) % (grid[y].length - 2), y));
-                else if (grid[y][x] == 'v') bliz.add(new Point(x, 1 + (y - 1 + min) % (grid.length - 2)));
-                else if (grid[y][x] == '<')
-                    bliz.add(new Point(1 + Math.floorMod(x - 1 - min, grid[y].length - 2), y));
-                else if (grid[y][x] == '^')
-                    bliz.add(new Point(x, 1 + Math.floorMod(y - 1 - min, grid.length - 2)));
-            }
-            gridStates.put(min, bliz);
-        }
-        Queue<State> q = new ArrayDeque<>(); q.add(start);
+        Map<Integer, Set<Point>> gridStates = createGrid(grid);
+        Queue<State> q = new ArrayDeque<>();
+        q.add(start);
         Set<State> visited = new HashSet<>();
         while (!q.isEmpty()) {
             State s = q.remove();
@@ -55,9 +49,29 @@ public class Day24 {
         }
         return -1;
     }
+
+    private static Map<Integer, Set<Point>> createGrid(Character[][] grid) {
+        Map<Integer, Set<Point>> gridStates = new HashMap<>();
+        for (int min = 0; min <= 800; min++) {
+            Set<Point> bliz = new HashSet<>();
+            for (int y = 0; y < grid.length; y++)
+                for (int x = 0; x < grid[y].length; x++) {
+                    if (grid[y][x] == '>') bliz.add(new Point(1 + (x - 1 + min) % (grid[y].length - 2), y));
+                    else if (grid[y][x] == 'v') bliz.add(new Point(x, 1 + (y - 1 + min) % (grid.length - 2)));
+                    else if (grid[y][x] == '<')
+                        bliz.add(new Point(1 + Math.floorMod(x - 1 - min, grid[y].length - 2), y));
+                    else if (grid[y][x] == '^')
+                        bliz.add(new Point(x, 1 + Math.floorMod(y - 1 - min, grid.length - 2)));
+                }
+            gridStates.put(min, bliz);
+        }
+        return gridStates;
+    }
+
     public static Object solveStar1(Character[][] grid, State start) {
         return solve(grid, start, true);
     }
+
     public static Object solveStar2(Character[][] grid, State start) {
         return solve(grid, start, false);
     }
